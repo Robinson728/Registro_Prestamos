@@ -38,9 +38,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Persona Id</label>
-                    <InputNumber @bind-Value="prestamos.PrestamoId" class="form-control"/>
-                    <ValidationMessage For="@(() => prestamos.PersonaId)"/>
+                    <label for="persona_select">PersonaId</label>
+                    <select id="persona_select" @bind="prestamos.PersonaId" class="form-control">
+                        <option value="" disabled selected>Persona</option>
+                        @foreach (var item in lista)
+                        {
+                            <option value="@item.PersonaId">@item.Nombres</option>
+                        }
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -77,11 +82,22 @@
     [Parameter]
     public int PrestamoId { get; set; }
     private Prestamos prestamos = new Prestamos();
+    List<Personas> lista = new List<Personas>();
 
     protected override void OnInitialized()
     {
         Nuevo();
-        Buscar();
+
+        if (PrestamoId > 0)
+        {
+            var Prestamo = PrestamosBLL.Buscar(PrestamoId);
+            if (Prestamo != null)
+                this.prestamos = Prestamo;
+            else
+                toast.ShowWarning("No encontrado.");
+        }
+
+        lista = PersonasBLL.GetList(p => true);
     }
 
     public void Nuevo()

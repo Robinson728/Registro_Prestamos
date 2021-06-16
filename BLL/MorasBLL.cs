@@ -69,6 +69,13 @@ namespace Registro_Prestamos.BLL
 
             try
             {
+                contexto.Database.ExecuteSqlRaw($"Delete from MorasDetalle where MoraId = {moras.MoraId}");
+
+                foreach (var item in moras.Detalle)
+                {
+                    contexto.Entry(item).State = EntityState.Added;
+                }
+
                 contexto.Entry(moras).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
             }
@@ -95,7 +102,7 @@ namespace Registro_Prestamos.BLL
 
                 if (eliminado != null)
                 {
-                    contexto.Moras.Remove(eliminado);
+                    contexto.Entry(eliminado).State = EntityState.Deleted;
                     paso = contexto.SaveChanges() > 0;
                 }
             }
@@ -118,7 +125,7 @@ namespace Registro_Prestamos.BLL
 
             try
             {
-                moras = contexto.Moras.Find(id);
+                moras = contexto.Moras.Include(e => e.Detalle).Where(r => r.MoraId == id).SingleOrDefault();
             }
             catch (Exception)
             {

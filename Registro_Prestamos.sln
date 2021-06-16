@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Registro_Prestamos", "Registro_Prestamos.csproj", "{6D623C4B-62AB-428E-93A8-49BB04C012C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Registro_PrestamosTests", "..\Registro_PrestamosTests\Registro_PrestamosTests.csproj", "{D0714274-5BD9-49A5-AA96-F8A03EB64657}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Registro_PrestamosTests", "..\Registro_PrestamosTests\Registro_PrestamosTests.csproj", "{D0714274-5BD9-49A5-AA96-F8A03EB64657}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

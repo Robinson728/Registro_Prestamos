@@ -49,6 +49,7 @@ namespace Registro_Prestamos.BLL
             {
                 contexto.Prestamos.Add(prestamos);
                 paso = contexto.SaveChanges() > 0;
+                AgregarBalance(prestamos);
             }
             catch (Exception)
             {
@@ -71,6 +72,7 @@ namespace Registro_Prestamos.BLL
             {
                 contexto.Entry(prestamos).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
+                AgregarBalance(prestamos);
             }
             catch (Exception)
             {
@@ -88,7 +90,7 @@ namespace Registro_Prestamos.BLL
         {
             Contexto contexto = new Contexto();
             bool paso = false;
-
+            //Prestamos prestamos;
             try
             {
                 var eliminado = contexto.Prestamos.Find(id);
@@ -97,6 +99,7 @@ namespace Registro_Prestamos.BLL
                 {
                     contexto.Prestamos.Remove(eliminado);
                     paso = contexto.SaveChanges() > 0;
+                    EliminarBalance(eliminado);
                 }
             }
             catch (Exception)
@@ -130,6 +133,54 @@ namespace Registro_Prestamos.BLL
             }
 
             return prestamos;
+        }
+
+        public static bool AgregarBalance(Prestamos prestamos)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+
+            try
+            {
+                prestamos.Balance = prestamos.Monto;
+
+                contexto.Personas.Find(prestamos.PersonaId).Balance = prestamos.Balance;
+                paso = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+
+            return paso;
+        }
+
+        public static bool EliminarBalance(Prestamos prestamos)
+        {
+            Contexto contexto = new Contexto();
+            bool paso = false;
+
+            try
+            {
+                //prestamos.Balance = prestamos.Monto;
+
+                contexto.Personas.Find(prestamos.PersonaId).Balance -= prestamos.Balance;
+                paso = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+
+            return paso;
         }
 
         public static List<Prestamos> GetList(Expression<Func<Prestamos, bool>> criterio)
