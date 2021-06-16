@@ -156,7 +156,7 @@
         moras = new Moras();
         prestamoSeleccionado = 0;
         monto = 0;
-        lista = new List<Prestamos>();
+        lista = PrestamosBLL.GetList(r => true);
     }
 
     public void Guardar()
