@@ -46,7 +46,7 @@
                             {
                                 @((prestamos) = PrestamosBLL.Buscar(item.PrestamoId));
                                 @((personas) = PersonasBLL.Buscar(prestamos.PersonaId));
-                                <option value="@prestamos.PrestamoId">@prestamos.Concepto@personas.Nombres</option>
+                                <option value="@prestamos.PrestamoId">Concepto: @prestamos.Concepto - Persona: @personas.Nombres</option>
                             }
                         </select>
                     </div>
